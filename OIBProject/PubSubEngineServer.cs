@@ -9,7 +9,7 @@ namespace OIBProject
 {
     class PubSubEngineServer : ITest
     {
-        public void Ispisi(string nesto)
+        public void Ispisi()
         {
             Console.WriteLine("test neki");
         }

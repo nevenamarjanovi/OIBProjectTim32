@@ -11,7 +11,7 @@ namespace Common
     public interface ITest
     {
         [OperationContract]
-        void Ispisi(string nesto);
+        void Ispisi();
      
     }
 }

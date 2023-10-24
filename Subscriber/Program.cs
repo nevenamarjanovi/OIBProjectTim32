@@ -18,8 +18,7 @@ namespace Subscriber
             ChannelFactory<ITest> channel = new ChannelFactory<ITest>(binding, address);
             ITest proxy = channel.CreateChannel();
 
-            string nesto = "123";
-            proxy.Ispisi("nesto");
+            proxy.Ispisi();
         }
     }
 }
