@@ -11,7 +11,12 @@ namespace Common
     public interface ITest
     {
         [OperationContract]
-        void Ispisi();
-     
+        void TestCommunication();
+
+
+        
+
+
+
     }
 }
