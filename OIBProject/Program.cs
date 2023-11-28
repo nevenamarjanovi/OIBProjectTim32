@@ -30,6 +30,8 @@ namespace PubSubEngine
 
                 binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
+                binding.Security.Mode = SecurityMode.None;
+
                 host.AddServiceEndpoint(typeof(ITest), binding, address);
 
                 ///Custom validation mode enables creation of a custom validator - CustomCertificateValidator

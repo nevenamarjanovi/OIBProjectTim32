@@ -7,7 +7,7 @@ using Common;
 
 namespace OIBProject
 {
-    class PubSubEngineServer : ITest
+    public class PubSubEngineServer : ITest
     {
         public void TestCommunication()
         {

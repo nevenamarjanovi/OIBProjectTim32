@@ -14,23 +14,30 @@ namespace Publisher
     {
         static void Main(string[] args)
         {
-            string srvCertCN = "PubSub";
+            try
+            {
+                string srvCertCN = "PubSub";
 
-            //string address = "net.tcp://localhost:4000/ITest";
-            NetTcpBinding binding = new NetTcpBinding();
+                //string address = "net.tcp://localhost:4000/ITest";
+                NetTcpBinding binding = new NetTcpBinding();
 
-
-            /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.Root, StoreLocation.LocalMachine, srvCertCN);
-            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:4000/ITest"),
-                                      new X509CertificateEndpointIdentity(srvCert));
+                binding.Security.Mode = SecurityMode.None;
 
 
+                /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
+                X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.Root, StoreLocation.LocalMachine, srvCertCN);
+                EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:4000/ITest"),
+                                          new X509CertificateEndpointIdentity(srvCert));
 
-            ChannelFactory<ITest> channel = new ChannelFactory<ITest>(binding, address);
-            ITest proxy = channel.CreateChannel();
+                using (WCFPublisher proxy = new WCFPublisher(binding, address))
+                {
+                    proxy.TestCommunication();
+                }
 
-            proxy.TestCommunication();
+
+                
+            }catch (Exception ex) { Console.WriteLine(ex.ToString()); };
+            Console.ReadLine();
         }
     }
 }

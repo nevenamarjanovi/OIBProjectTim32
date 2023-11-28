@@ -19,15 +19,18 @@ namespace Subscriber
             //string address = "net.tcp://localhost:4000/ITest";
             NetTcpBinding binding = new NetTcpBinding();
 
+            binding.Security.Mode = SecurityMode.None;
+
             X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.Root, StoreLocation.LocalMachine, srvCertCN);
             EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:4000/ITest"),
                                       new X509CertificateEndpointIdentity(srvCert));
 
 
-            ChannelFactory<ITest> channel = new ChannelFactory<ITest>(binding, address);
-            ITest proxy = channel.CreateChannel();
+            using (WCFSubscriber proxy = new WCFSubscriber(binding, address))
+            {
+                proxy.TestCommunication();
+            }
 
-            proxy.TestCommunication();
         }
     }
 }
