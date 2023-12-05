@@ -7,6 +7,8 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Manager;
+using System.Security.Principal;
+using System.Threading;
 
 namespace Publisher
 {
@@ -14,30 +16,71 @@ namespace Publisher
     {
         static void Main(string[] args)
         {
-            try
+            string signCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "_sign";
+
+            string srvCertCN = "PubSub";
+
+            //string address = "net.tcp://localhost:4000/ITest";
+            NetTcpBinding binding = new NetTcpBinding();
+
+            binding.Security.Mode = SecurityMode.None;
+
+
+            /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.Root, StoreLocation.LocalMachine, srvCertCN);
+            EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:4000/ITest"),
+                                      new X509CertificateEndpointIdentity(srvCert));
+
+            WCFPublisher publisher = new WCFPublisher(binding, address);
+
+            Random r = new Random();
+
+            X509Certificate2 certificateSign = CertManager.GetCertificateFromStorage(StoreName.My,
+                   StoreLocation.LocalMachine, signCertCN);
+
+            string alarmMessageBase = AlarmMessage.GetAlarmMessage;
+
+            while (true)
             {
-                string srvCertCN = "PubSub";
+                int risk = r.Next(1, 100);
 
-                //string address = "net.tcp://localhost:4000/ITest";
-                NetTcpBinding binding = new NetTcpBinding();
+                AlarmEnum alarmType = GetAlarmTypeForRisk(risk);
 
-                binding.Security.Mode = SecurityMode.None;
+                string alarm = String.Format(alarmMessageBase, DateTime.Now, alarmType, risk);
 
-
-                /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
-                X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.Root, StoreLocation.LocalMachine, srvCertCN);
-                EndpointAddress address = new EndpointAddress(new Uri("net.tcp://localhost:4000/ITest"),
-                                          new X509CertificateEndpointIdentity(srvCert));
-
-                using (WCFPublisher proxy = new WCFPublisher(binding, address))
-                {
-                    proxy.TestCommunication();
-                }
+                byte[] signature = DigitalSignature.Create(alarm, HashAlgorithm.SHA1, certificateSign);
 
 
-                
-            }catch (Exception ex) { Console.WriteLine(ex.ToString()); };
-            Console.ReadLine();
+                publisher.SendDataToEngine(alarm, signature);
+
+                Thread.Sleep(5000);
+
+            }
+
+        }
+
+        public static AlarmEnum GetAlarmTypeForRisk(int risk)
+        {
+            if (risk >= 0 && risk <= 20)
+            {
+                return AlarmEnum.NO_ALARM;
+            }
+            else if (risk >= 21 && risk <= 40)
+            {
+                return AlarmEnum.FALSE_ALARM;
+            }
+            else if (risk >= 41 && risk <= 60)
+            {
+                return AlarmEnum.INFO;
+            }
+            else if (risk >= 61 && risk <= 80)
+            {
+                return AlarmEnum.WARNING;
+            }
+            else
+            {
+                return AlarmEnum.ERROR;
+            }
         }
     }
 }

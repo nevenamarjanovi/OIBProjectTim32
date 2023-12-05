@@ -13,9 +13,14 @@ namespace Common
         [OperationContract]
         void TestCommunication();
 
+        [OperationContract]
+        void SendDataToEngine(string alarm, byte[] sign);
 
-        
+        [OperationContract]
+        void Subscribe(string alarmTypes, string clientAddress);
 
+        [OperationContract]
+        void Unsubscribe(string clientAddress);
 
 
     }

@@ -12,7 +12,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Subscriber
 {
-    internal class WCFSubscriber : ChannelFactory<ITest>, ITest, IDisposable
+    internal class WCFSubscriber : ChannelFactory<ITest>, IDisposable
 	{
 		ITest factory;
 
@@ -32,19 +32,33 @@ namespace Subscriber
 			factory = this.CreateChannel();
 		}
 
-		public void TestCommunication()
-		{
-			try
-			{
-				factory.TestCommunication();
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine("[TestCommunication] ERROR = {0}", e.Message);
-			}
-		}
+        public void Subscribe(string alarmTypes, string clientAddress)
+        {
+            try
+            {
+                factory.Subscribe(alarmTypes, clientAddress);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e);
+                Console.ReadLine();
+            }
+        }
 
-		public void Dispose()
+        public void Unsubscribe(string clientAddress)
+        {
+            try
+            {
+                factory.Unsubscribe(clientAddress);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: {0}", e);
+                Console.ReadLine();
+            }
+        }
+
+        public void Dispose()
 		{
 			if (factory != null)
 			{

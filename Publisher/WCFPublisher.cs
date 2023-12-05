@@ -1,4 +1,5 @@
 ﻿using Common;
+using AES;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,11 @@ using System.Threading.Tasks;
 using Manager;
 using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
+using System.IO;
 
 namespace Publisher
 {
-    public class WCFPublisher : ChannelFactory<ITest>, ITest, IDisposable
+    public class WCFPublisher : ChannelFactory<ITest>, IDisposable
 	{
 		ITest factory;
 
@@ -42,6 +44,23 @@ namespace Publisher
 				Console.WriteLine("[TestCommunication] ERROR = {0}", e.Message);
 			}
 		}
+
+		public void SendDataToEngine(string alarm, byte[] sign)
+		{
+			try
+			{
+				string key = AES.SecretKey.GenerateKey();
+				string startupPath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName, "keyPubEng.txt");
+				SecretKey.StoreKey(key, startupPath);
+
+				factory.SendDataToEngine(AES.Encryption.EncryptString(alarm, key), sign);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine("Error: {0}", e);
+			}
+		}
+
 
 		public void Dispose()
 		{
