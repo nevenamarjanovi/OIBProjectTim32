@@ -22,8 +22,8 @@ namespace Publisher
 
             //string address = "net.tcp://localhost:4000/ITest";
             NetTcpBinding binding = new NetTcpBinding();
+            binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-            binding.Security.Mode = SecurityMode.None;
 
 
             /// Use CertManager class to obtain the certificate based on the "srvCertCN" representing the expected service identity.
