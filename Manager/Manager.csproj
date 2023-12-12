@@ -48,6 +48,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AlarmMessageFile.resx</DependentUpon>
     </Compile>
+    <Compile Include="Audit.cs" />
     <Compile Include="CertManager.cs" />
     <Compile Include="ClientCertValidator.cs" />
     <Compile Include="DigitalSignature.cs" />

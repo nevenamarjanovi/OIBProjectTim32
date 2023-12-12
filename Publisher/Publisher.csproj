@@ -53,9 +53,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AES\AES.csproj">
-      <Project>{d0ba53df-399a-4a2c-a849-949c7e0f2b36}</Project>
-      <Name>AES</Name>
+    <ProjectReference Include="..\AESEncAlg\AESEncAlg.csproj">
+      <Project>{9e5ad444-ea3e-4a6a-ad35-32a1d372cf29}</Project>
+      <Name>AESEncAlg</Name>
     </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{E3CC5973-A5BD-4606-A67F-28D8CC158E00}</Project>

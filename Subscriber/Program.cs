@@ -1,14 +1,13 @@
 ﻿using Common;
-using AES;
 using Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.ServiceModel.Description;
+using AESEncAlg;
 
 namespace Subscriber
 {
@@ -18,12 +17,20 @@ namespace Subscriber
         {
             NetTcpBinding binding = new NetTcpBinding();
             
-            ServiceHost host = new ServiceHost(typeof(WCFSubscriber));
-            string address = host.BaseAddresses.First().ToString();
+            ServiceHost host = new ServiceHost(typeof(Subscriber));
+            //string address = host.BaseAddresses.First().ToString();
+            string address = "net.tcp://localhost:4000/ITest";
 
             host.AddServiceEndpoint(typeof(ISubscriber), binding, address);
 
-            //string address = "net.tcp://localhost:4000/ITest";
+            
+            ServiceSecurityAuditBehavior newAudit = new ServiceSecurityAuditBehavior();
+            newAudit.AuditLogLocation = AuditLogLocation.Application;
+            newAudit.ServiceAuthorizationAuditLevel = AuditLevel.SuccessOrFailure;
+
+            host.Description.Behaviors.Remove<ServiceSecurityAuditBehavior>();
+            host.Description.Behaviors.Add(newAudit);
+
             host.Open();
             string srvCertCN = "PubSub";
 
@@ -85,14 +92,14 @@ namespace Subscriber
                         alarmTypess = alarmTypess + at + " ";
                     }
 
-                    string key = AES.SecretKey.GenerateKey();
+                    string key = AESEncAlg.SecretKey.GenerateKey();
 
                     string startupPath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName, "keySubEng.txt");
                     SecretKey.StoreKey(key, startupPath);
 
 
-                    sub.Subscribe(AES.Encryption.EncryptString(alarmTypess, key),
-                        AES.Encryption.EncryptString(address, key));
+                    sub.Subscribe(AESEncAlg.Encryption.EncryptString(alarmTypess, key),
+                        AESEncAlg.Encryption.EncryptString(address, key));
 
 
 

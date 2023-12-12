@@ -1,5 +1,5 @@
 ﻿using Common;
-using AES;
+using AESEncAlg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,11 +49,11 @@ namespace Publisher
 		{
 			try
 			{
-				string key = AES.SecretKey.GenerateKey();
-				string startupPath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName, "keyPubEng.txt");
+				string key = AESEncAlg.SecretKey.GenerateKey();
+				string startupPath = "C:\\Users\\Public\\keyPubEng.txt";
 				SecretKey.StoreKey(key, startupPath);
 
-				factory.SendDataToEngine(AES.Encryption.EncryptString(alarm, key), sign);
+				factory.SendDataToEngine(AESEncAlg.Encryption.EncryptString(alarm, key), sign);
 			}
 			catch (Exception e)
 			{

@@ -22,8 +22,7 @@ namespace PubSubEngine
             {
 
                 string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
-
-               
+  
 
                 string address = "net.tcp://localhost:4000/ITest";
                 NetTcpBinding binding = new NetTcpBinding();

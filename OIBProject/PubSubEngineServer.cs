@@ -1,5 +1,5 @@
 ﻿using System;
-using AES;
+using AESEncAlg;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace OIBProject
             string publisherName = Formatter.ParseName(ServiceSecurityContext.Current.PrimaryIdentity.Name);
 
             string startupPath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName, "keyPubEng.txt");
-            string decrypedAlarm = AES.Decryption.DecryptString(alarm, AES.SecretKey.LoadKey(startupPath));
+            string decrypedAlarm = AESEncAlg.Decryption.DecryptString(alarm, AESEncAlg.SecretKey.LoadKey(startupPath));
 
             Console.WriteLine(decrypedAlarm);
 
@@ -43,7 +43,7 @@ namespace OIBProject
                 {
                     if (alarmType.Equals(alarmType))
                     {
-                        s.Proxy.SendDataToSubscriber(AES.Encryption.EncryptString(decrypedAlarm, AES.SecretKey.LoadKey(startupPathh)),
+                        s.Proxy.SendDataToSubscriber(AESEncAlg.Encryption.EncryptString(decrypedAlarm, AESEncAlg.SecretKey.LoadKey(startupPathh)),
                                                     sign, csp.Encrypt(publisherNameBytes, false));
                     }
                 }
@@ -57,9 +57,9 @@ namespace OIBProject
 
             string startupPath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName, "keySubEng.txt");
 
-            string decryptedAddress = AES.Decryption.DecryptString(clientAddress, AES.SecretKey.LoadKey(startupPath));
+            string decryptedAddress = AESEncAlg.Decryption.DecryptString(clientAddress, AESEncAlg.SecretKey.LoadKey(startupPath));
 
-            string decryptedAlarmTypes = AES.Decryption.DecryptString(alarmTypes, AES.SecretKey.LoadKey(startupPath));
+            string decryptedAlarmTypes = AESEncAlg.Decryption.DecryptString(alarmTypes, AESEncAlg.SecretKey.LoadKey(startupPath));
 
             string[] parts = decryptedAlarmTypes.Split(' ');
 
