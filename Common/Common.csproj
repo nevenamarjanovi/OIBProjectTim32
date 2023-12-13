@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmEnum.cs" />
-    <Compile Include="ISubscriber.cs" />
+    <Compile Include="ISubscriberEngine.cs" />
     <Compile Include="ITest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

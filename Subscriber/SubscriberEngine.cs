@@ -14,7 +14,7 @@ using System.ServiceModel;
 namespace Subscriber
 {
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
-    public class Subscriber : ISubscriber
+    public class SubscriberEngine : ISubscriberEngine
     {
         public void SendDataToSubscriber(string alarm, byte[] sign, byte[] publisherName)
         {

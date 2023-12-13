@@ -9,18 +9,24 @@ using System.Threading.Tasks;
 using Manager;
 using System.Security.Principal;
 using System.Security.Cryptography.X509Certificates;
+using Formatter = Manager.Formatter;
 
 namespace Subscriber
 {
-    internal class WCFSubscriber : ChannelFactory<ITest>, IDisposable
+    public class WCFSubscriber : ChannelFactory<ITest>, IDisposable
 	{
 		ITest factory;
 
-		public WCFSubscriber(NetTcpBinding binding, EndpointAddress address)
+        public WCFSubscriber(NetTcpBinding binding, string address) : base(binding, address)
+        {
+            factory = this.CreateChannel();
+        }
+
+        public WCFSubscriber(NetTcpBinding binding, EndpointAddress address)
 			: base(binding, address)
 		{
 			/// cltCertCN.SubjectName should be set to the client's username. .NET WindowsIdentity class provides information about Windows user running the given process
-			string cltCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
+			string cltCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
 
 			this.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = System.ServiceModel.Security.X509CertificateValidationMode.Custom;
 			this.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new ClientCertValidator();

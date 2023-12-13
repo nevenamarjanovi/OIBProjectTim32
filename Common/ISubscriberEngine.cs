@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Common
 {
     [ServiceContract]
-    public interface ISubscriber
+    public interface ISubscriberEngine
     {
  
         [OperationContract]

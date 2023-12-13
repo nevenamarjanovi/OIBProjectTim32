@@ -1,5 +1,4 @@
 ﻿using Common;
-using OIBProject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +23,7 @@ namespace PubSubEngine
                 string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
   
 
-                string address = "net.tcp://localhost:4000/ITest";
+                string address = "net.tcp://localhost:4000/PubSubEngineServer";
                 NetTcpBinding binding = new NetTcpBinding();
 
                 binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;

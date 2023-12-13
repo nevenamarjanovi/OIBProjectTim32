@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace PubSubEngine
 {
-    public class ClientProxy : ChannelFactory<ISubscriber>, ISubscriber, IDisposable
+    public class ClientProxy : ChannelFactory<ISubscriberEngine>, ISubscriberEngine, IDisposable
     {
-        ISubscriber factory;
+        ISubscriberEngine factory;
 
         public ClientProxy(NetTcpBinding binding, string address) : base(binding, address)
         {

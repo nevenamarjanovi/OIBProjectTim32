@@ -12,7 +12,7 @@ using Manager;
 using PubSubEngine;
 using System.ServiceModel;
 
-namespace OIBProject
+namespace PubSubEngine
 {
     public class PubSubEngineServer : ITest
     {

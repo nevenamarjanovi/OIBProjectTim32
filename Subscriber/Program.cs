@@ -11,17 +11,17 @@ using AESEncAlg;
 
 namespace Subscriber
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             NetTcpBinding binding = new NetTcpBinding();
             
-            ServiceHost host = new ServiceHost(typeof(Subscriber));
+            ServiceHost host = new ServiceHost(typeof(SubscriberEngine)); ///////////////
             //string address = host.BaseAddresses.First().ToString();
-            string address = "net.tcp://localhost:4000/ITest";
+            string address = "net.tcp://localhost:4000/PubSubEngineServer";
 
-            host.AddServiceEndpoint(typeof(ISubscriber), binding, address);
+            host.AddServiceEndpoint(typeof(ISubscriberEngine), binding, address);
 
             
             ServiceSecurityAuditBehavior newAudit = new ServiceSecurityAuditBehavior();
@@ -39,12 +39,12 @@ namespace Subscriber
             bind.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
             
 
-            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.Root, StoreLocation.LocalMachine, srvCertCN);
-            EndpointAddress addr = new EndpointAddress(new Uri("net.tcp://localhost:4000/ITest"),
+            X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
+            EndpointAddress addr = new EndpointAddress(new Uri("net.tcp://localhost:4000/PubSubEngineServer"),
                                       new X509CertificateEndpointIdentity(srvCert));
 
 
-            WCFSubscriber sub = new WCFSubscriber(binding, addr);
+            WCFSubscriber sub = new WCFSubscriber(bind, addr);
 
             while (true)
             {
