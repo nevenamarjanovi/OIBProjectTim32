@@ -8,6 +8,7 @@ using System.ServiceModel;
 using System.IO;
 using System.ServiceModel.Description;
 using AESEncAlg;
+using System.Diagnostics;
 
 namespace Subscriber
 {
@@ -15,6 +16,7 @@ namespace Subscriber
     {
         static void Main(string[] args)
         {
+            Debugger.Launch();
             NetTcpBinding binding = new NetTcpBinding();
             
             ServiceHost host = new ServiceHost(typeof(SubscriberEngine)); ///////////////

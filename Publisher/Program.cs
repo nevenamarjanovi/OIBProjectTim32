@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Manager;
 using System.Security.Principal;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Publisher
 {
@@ -16,6 +17,7 @@ namespace Publisher
     {
         static void Main(string[] args)
         {
+            Debugger.Launch();
             try
             {
                 string signCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "_sign";

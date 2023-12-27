@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Manager;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel.Security;
+using System.Diagnostics;
 
 namespace PubSubEngine
 {
@@ -17,6 +18,7 @@ namespace PubSubEngine
     {
         static void Main(string[] args)
         {
+            Debugger.Launch();
             using (ServiceHost host = new ServiceHost(typeof(PubSubEngineServer)))
             {
 
