@@ -18,7 +18,7 @@ namespace PubSubEngine
     {
         static void Main(string[] args)
         {
-            Debugger.Launch();
+            
             using (ServiceHost host = new ServiceHost(typeof(PubSubEngineServer)))
             {
 

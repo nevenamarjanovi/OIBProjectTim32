@@ -16,7 +16,7 @@ namespace Subscriber
     {
         static void Main(string[] args)
         {
-            Debugger.Launch();
+            
             NetTcpBinding binding = new NetTcpBinding();
             
             ServiceHost host = new ServiceHost(typeof(SubscriberEngine)); ///////////////

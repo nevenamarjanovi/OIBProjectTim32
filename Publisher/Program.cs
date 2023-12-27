@@ -17,7 +17,7 @@ namespace Publisher
     {
         static void Main(string[] args)
         {
-            Debugger.Launch();
+            
             try
             {
                 string signCertCN = Formatter.ParseName(WindowsIdentity.GetCurrent().Name) + "_sign";
