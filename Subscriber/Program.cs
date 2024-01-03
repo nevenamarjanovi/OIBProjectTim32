@@ -21,7 +21,7 @@ namespace Subscriber
             
             ServiceHost host = new ServiceHost(typeof(SubscriberEngine)); ///////////////
             //string address = host.BaseAddresses.First().ToString();
-            string address = "net.tcp://localhost:4000/PubSubEngineServer";
+            string address = "net.tcp://localhost:4000/ITest";
 
             host.AddServiceEndpoint(typeof(ISubscriberEngine), binding, address);
 
@@ -42,7 +42,7 @@ namespace Subscriber
             
 
             X509Certificate2 srvCert = CertManager.GetCertificateFromStorage(StoreName.TrustedPeople, StoreLocation.LocalMachine, srvCertCN);
-            EndpointAddress addr = new EndpointAddress(new Uri("net.tcp://localhost:4000/PubSubEngineServer"),
+            EndpointAddress addr = new EndpointAddress(new Uri("net.tcp://localhost:4000/ITest"),
                                       new X509CertificateEndpointIdentity(srvCert));
 
 

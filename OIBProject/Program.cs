@@ -25,12 +25,12 @@ namespace PubSubEngine
                 string srvCertCN = Manager.Formatter.ParseName(WindowsIdentity.GetCurrent().Name);
   
 
-                string address = "net.tcp://localhost:4000/PubSubEngineServer";
+                string address = "net.tcp://localhost:4000/ITest";
                 NetTcpBinding binding = new NetTcpBinding();
 
                 binding.Security.Transport.ClientCredentialType = TcpClientCredentialType.Certificate;
 
-                binding.Security.Mode = SecurityMode.None;
+                binding.Security.Mode = SecurityMode.Transport;
 
                 host.AddServiceEndpoint(typeof(ITest), binding, address);
 
